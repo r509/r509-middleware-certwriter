@@ -85,33 +85,33 @@ describe R509::Middleware::Certwriter do
 
     context "issuing" do
         it "intercepts issuance" do
-            filename = "langui.sh_211653423715.pem"
+            filename = "langui.sh_testy_211653423715.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
-            post "/1/certificate/issue", :successful => true
+            post "/1/certificate/issue", :successful => true, :ca => "testy"
             last_response.status.should == 200
             last_response.body.should == TestFixtures::CERT
 
             File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::CERT
         end
         it "no certwriter" do
-            filename = "langui.sh_211653423715.pem"
+            filename = "langui.sh_testy_211653423715.pem"
             @config.should_receive(:[]).with("certwriter").and_return(nil)
             @logger.should_receive(:error).twice
 
-            post "/1/certificate/issue", :successful => true
+            post "/1/certificate/issue", :successful => true, :ca => "testy"
             last_response.status.should == 200
             last_response.body.should == TestFixtures::CERT
 
             File.exist?(File.join(@temp_write_directory, filename)).should == false
         end
         it "no certwriter path" do
-            filename = "langui.sh_211653423715.pem"
+            filename = "langui.sh_testy_211653423715.pem"
             @config.should_receive(:[]).with("certwriter").and_return({})
             @logger.should_receive(:error).twice
 
-            post "/1/certificate/issue", :successful => true
+            post "/1/certificate/issue", :successful => true, :ca => "testy"
             last_response.status.should == 200
             last_response.body.should == TestFixtures::CERT
 
@@ -128,33 +128,33 @@ describe R509::Middleware::Certwriter do
             last_response.body.should == "invalid cert body"
         end
         it "wildcard" do
-            filename = "*.xramp.com_211653407360.pem"
+            filename = "*.xramp.com_testy_211653407360.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
-            post "/1/certificate/issue", :successful => true, :cert => TestFixtures::WILDCARD
+            post "/1/certificate/issue", :successful => true, :cert => TestFixtures::WILDCARD, :ca => "testy"
             last_response.status.should == 200
             last_response.body.should == TestFixtures::WILDCARD
 
             File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::WILDCARD.chomp
         end
         it "san" do
-            filename = "langui.sh_57953710177023404420300898930034339170.pem"
+            filename = "langui.sh_testy_57953710177023404420300898930034339170.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
-            post "/1/certificate/issue", :successful => true, :cert => TestFixtures::SAN
+            post "/1/certificate/issue", :successful => true, :cert => TestFixtures::SAN, :ca => "testy"
             last_response.status.should == 200
             last_response.body.should == TestFixtures::SAN
 
             File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::SAN.chomp
         end
         it "non-ascii characters" do
-            filename = "ütf.com_1347710705410875939179018156461170725106572413147.pem"
+            filename = "ütf.com_testy_1347710705410875939179018156461170725106572413147.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
-            post "/1/certificate/issue", :successful => true, :cert => TestFixtures::UTF
+            post "/1/certificate/issue", :successful => true, :cert => TestFixtures::UTF, :ca => "testy"
             last_response.status.should == 200
             last_response.body.should == TestFixtures::UTF
 

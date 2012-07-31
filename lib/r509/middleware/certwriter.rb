@@ -26,9 +26,10 @@ module R509
                         body += part
                     end
                     begin
+                        params = parse_params(env)
                         cert = R509::Cert.new(:cert => body)
                         file_path = @config["certwriter"]["path"]
-                        filename = File.join(file_path, "#{cert.subject_component("CN")}_#{cert.serial}.pem")
+                        filename = File.join(file_path, "#{cert.subject_component("CN")}_#{params["ca"]}_#{cert.serial}.pem")
                         log.info "Writing: #{filename.force_encoding("utf-8")}"
                         File.open(filename, "w"){|f| f.write(cert.to_s)}
                     rescue => e
@@ -38,6 +39,15 @@ module R509
                 end
 
                 [status, headers, response]
+            end
+
+            private
+
+            def parse_params(env)
+                raw_request = env["rack.input"].read
+                env["rack.input"].rewind
+
+                Rack::Utils.parse_query(raw_request)
             end
         end
     end
