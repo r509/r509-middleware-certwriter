@@ -29,8 +29,11 @@ module R509
                         params = parse_params(env)
                         cert = R509::Cert.new(:cert => body)
                         file_path = @config["certwriter"]["path"]
-                        filename = File.join(file_path, "#{cert.subject_component("CN")}_#{params["ca"]}_#{cert.serial}.pem")
-                        log.info "Writing: #{filename.force_encoding("utf-8")}"
+                        filename = File.join(file_path, 
+                            "#{cert.subject_component("CN")}_#{params["ca"]}_#{cert.serial}.pem").
+                            gsub("*", "STAR").
+                            encode(Encoding.find("ASCII"), {:invalid => :replace, :undef => :replace, :replace => "", :universal_newline => true})
+                        log.info "Writing: #{filename}"
                         File.open(filename, "w"){|f| f.write(cert.to_s)}
                     rescue => e
                         log.error "Writing failed"

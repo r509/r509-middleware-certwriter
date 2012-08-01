@@ -128,7 +128,7 @@ describe R509::Middleware::Certwriter do
             last_response.body.should == "invalid cert body"
         end
         it "wildcard" do
-            filename = "*.xramp.com_testy_211653407360.pem"
+            filename = "STAR.xramp.com_testy_211653407360.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
@@ -150,7 +150,7 @@ describe R509::Middleware::Certwriter do
             File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::SAN.chomp
         end
         it "non-ascii characters" do
-            filename = "ütf.com_testy_1347710705410875939179018156461170725106572413147.pem"
+            filename = "tf.com_testy_1347710705410875939179018156461170725106572413147.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
