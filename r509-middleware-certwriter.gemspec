@@ -10,6 +10,8 @@ spec = Gem::Specification.new do |s|
   s.description = "Rack middleware that writes issued certificates to disk"
   s.add_dependency 'sinatra'
   s.add_dependency 'rack'
+  s.add_dependency 'dependo'
+  s.add_dependency 'r509', '>= 0.8'
   s.add_development_dependency 'rspec'
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rack-test'
