@@ -38,7 +38,9 @@ module R509
                     rescue => e
                         log.error "Writing failed"
                         log.error e.inspect
-                        log.error cert.to_pem
+                        if cert.respond_to?(:to_pem)
+                          log.error cert.to_pem
+                        end
                     end
                 end
 
