@@ -29,8 +29,8 @@ module R509
                         params = parse_params(env)
                         cert = R509::Cert.new(:cert => body)
                         file_path = @config["certwriter"]["path"]
-                        filename = File.join(file_path, 
-                            "#{cert.subject_component("CN")}_#{params["ca"]}_#{cert.serial}.pem").
+                        filename = File.join(file_path,
+                            "#{cert.subject.CN}_#{params["ca"]}_#{cert.hexserial}.pem").
                             gsub("*", "STAR").
                             encode(Encoding.find("ASCII"), {:invalid => :replace, :undef => :replace, :replace => "", :universal_newline => true})
                         log.info "Writing: #{filename}"
@@ -38,6 +38,7 @@ module R509
                     rescue => e
                         log.error "Writing failed"
                         log.error e.inspect
+                        log.error cert.to_pem
                     end
                 end
 
