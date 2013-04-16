@@ -68,7 +68,7 @@ describe R509::Middleware::Certwriter do
     after :all do
         Dir.delete(@temp_write_directory)
     end
-    
+
     def app
         test_server = TestServer
         test_server.send(:set, :config_pool, @config_pool)
@@ -85,7 +85,7 @@ describe R509::Middleware::Certwriter do
 
     context "issuing" do
         it "intercepts issuance" do
-            filename = "langui.sh_testy_211653423715.pem"
+            filename = "langui.sh_testy_314786F263.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
@@ -98,7 +98,7 @@ describe R509::Middleware::Certwriter do
         it "no certwriter" do
             filename = "langui.sh_testy_211653423715.pem"
             @config.should_receive(:[]).with("certwriter").and_return(nil)
-            @logger.should_receive(:error).twice
+            @logger.should_receive(:error).exactly(3).times
 
             post "/1/certificate/issue", :successful => true, :ca => "testy"
             last_response.status.should == 200
@@ -109,7 +109,7 @@ describe R509::Middleware::Certwriter do
         it "no certwriter path" do
             filename = "langui.sh_testy_211653423715.pem"
             @config.should_receive(:[]).with("certwriter").and_return({})
-            @logger.should_receive(:error).twice
+            @logger.should_receive(:error).exactly(3).times
 
             post "/1/certificate/issue", :successful => true, :ca => "testy"
             last_response.status.should == 200
@@ -128,7 +128,7 @@ describe R509::Middleware::Certwriter do
             last_response.body.should == "invalid cert body"
         end
         it "wildcard" do
-            filename = "STAR.xramp.com_testy_211653407360.pem"
+            filename = "STAR.xramp.com_testy_314786B280.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
@@ -139,7 +139,7 @@ describe R509::Middleware::Certwriter do
             File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::WILDCARD.chomp
         end
         it "san" do
-            filename = "langui.sh_testy_57953710177023404420300898930034339170.pem"
+            filename = "langui.sh_testy_2B997A8456AEDA8545CA3AEAE18DED62.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
@@ -150,7 +150,7 @@ describe R509::Middleware::Certwriter do
             File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::SAN.chomp
         end
         it "non-ascii characters" do
-            filename = "tf.com_testy_1347710705410875939179018156461170725106572413147.pem"
+            filename = "tf.com_testy_EC117029E20D11E66289C635C8B6867ED61148DB.pem"
             @config.should_receive(:[]).with("certwriter").and_return({"path"=>@temp_write_directory})
             @logger.should_receive(:info).with("Writing: #{File.join(@temp_write_directory, filename)}")
 
