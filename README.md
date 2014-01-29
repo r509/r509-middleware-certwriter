@@ -1,20 +1,24 @@
-# r509-middleware-certwriter
+# r509-middleware-certwriter [![Build Status](https://secure.travis-ci.org/r509/r509-middleware-certwriter.png)](http://travis-ci.org/r509/r509-middleware-certwriter)
 
-This project is related to [r509](http://github.com/reaperhulk/r509) and [r509-ca-http](http://github.com/sirsean/r509-ca-http), allowing us to save all issued certificates to the filesystem after they're issued. This is middleware so that you don't **need** to have your CA know anything about writing to the filesystem if you don't want to.
+This project is related to [r509](http://github.com/reaperhulk/r509) and [r509-ca-http](http://github.com/sirsean/r509-ca-http), allowing you to save all issued certificates to the filesystem after they're issued. This is middleware so that you don't **need** to have your CA know anything about writing to the filesystem if you don't want to.
 
-# config.ru
+## Configuration
 
-    require 'r509/middleware/certwriter'
+Add this to the ```config.ru``` file for your r509-ca-http instance.
 
-    use R509::Middleware::Certwriter
-    run R509::CertificateAuthority::Http::Server
+```ruby
+require 'r509/middleware/certwriter'
 
-# config.yaml
+use R509::Middleware::Certwriter
+run R509::CertificateAuthority::Http::Server
+```
 
-You need to tell your CA where to save the issued certificates. Add this to the bottom of your ```config.yaml``` from **r509-ca-http**:
+You'll also need to tell your CA where to save the issued certificates. Add this to the bottom of your r509-ca-http ```config.yaml```:
 
-    certwriter: {
-        path: "/absolute/path/to/wherever/you/want/the/certs"
-    }
+```yaml
+certwriter: {
+  path: "/absolute/path/to/wherever/you/want/the/certs"
+}
+```
 
 Now every time a certificate is issued, it will be saved to the filesystem.
