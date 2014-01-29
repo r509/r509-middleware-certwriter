@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "r509", :git => "git://github.com/r509/r509.git"
+gem "r509"
 gem "dependo"
 group :documentation do
     gem "yard", "~>0.8.2"
