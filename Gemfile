@@ -1,7 +1,7 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-gem "r509", :git => "git://github.com/reaperhulk/r509.git"
-gem "dependo", :git => "git://github.com/sirsean/dependo.git"
+gem "r509", :git => "git://github.com/r509/r509.git"
+gem "dependo"
 group :documentation do
     gem "yard", "~>0.8.2"
     gem "redcarpet", "~>2.1.1"
