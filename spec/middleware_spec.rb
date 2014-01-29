@@ -93,7 +93,7 @@ describe R509::Middleware::Certwriter do
             last_response.status.should == 200
             last_response.body.should == TestFixtures::CERT
 
-            File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::CERT
+            File.read(File.join(@temp_write_directory, filename)).chomp.should == TestFixtures::CERT
         end
         it "no certwriter" do
             filename = "langui.sh_testy_211653423715.pem"
@@ -136,7 +136,7 @@ describe R509::Middleware::Certwriter do
             last_response.status.should == 200
             last_response.body.should == TestFixtures::WILDCARD
 
-            File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::WILDCARD.chomp
+            File.read(File.join(@temp_write_directory, filename)).chomp.should == TestFixtures::WILDCARD.chomp
         end
         it "san" do
             filename = "langui.sh_testy_2B997A8456AEDA8545CA3AEAE18DED62.pem"
@@ -147,7 +147,7 @@ describe R509::Middleware::Certwriter do
             last_response.status.should == 200
             last_response.body.should == TestFixtures::SAN
 
-            File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::SAN.chomp
+            File.read(File.join(@temp_write_directory, filename)).chomp.should == TestFixtures::SAN.chomp
         end
         it "non-ascii characters" do
             filename = "tf.com_testy_EC117029E20D11E66289C635C8B6867ED61148DB.pem"
@@ -158,7 +158,7 @@ describe R509::Middleware::Certwriter do
             last_response.status.should == 200
             last_response.body.should == TestFixtures::UTF
 
-            File.read(File.join(@temp_write_directory, filename)).should == TestFixtures::UTF.chomp
+            File.read(File.join(@temp_write_directory, filename)).chomp.should == TestFixtures::UTF.chomp
         end
     end
 
