@@ -32,7 +32,7 @@ module R509
                         filename = File.join(file_path,
                             "#{cert.subject.CN}_#{params["ca"]}_#{cert.hexserial}.pem").
                             gsub("*", "STAR").
-                            encode(Encoding.find("ASCII"), {:invalid => :replace, :undef => :replace, :replace => "", :universal_newline => true})
+                            encode(Encoding.find("ASCII"), :invalid => :replace, :undef => :replace, :replace => "", :universal_newline => true)
                         log.info "Writing: #{filename}"
                         File.open(filename, "w"){|f| f.write(cert.to_s)}
                     rescue => e
